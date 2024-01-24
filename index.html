@@ -200,7 +200,7 @@
               <li v-for="item in lessons">
                 <div
                   class="shadow-xl w-full lgw-[380px] rounded-lg"
-                  :key="item.id"
+                  :key="item._id"
                 >
                   <div class="flex justify-between">
                     <div class="flex items-center bg-[#FFF8F0] w-fit py-2 px-4">
@@ -290,7 +290,7 @@
                     <div class="w-full mt-8">
                       <button
                         :disabled="item.spaces <= 0"
-                        @click="addCourseToCart(item.id)"
+                        @click="addCourseToCart(item._id)"
                         :class="item.spaces <= 0 ? 'bg-blue-300 flex justify-center w-full text-white py-2 px-4 rounded' : 'bg-blue-500 hover:bg-blue-700 flex justify-center w-full text-white font-bold py-2 px-4 rounded'"
                       >
                         <svg
@@ -353,7 +353,7 @@
                       </div>
 
                       <div
-                        @click="removeCourseFromCart(course.id)"
+                        @click="removeCourseFromCart(course._id)"
                         class="hover:cursor-pointer"
                       >
                         <svg

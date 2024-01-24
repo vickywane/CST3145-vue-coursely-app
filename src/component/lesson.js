@@ -1,13 +1,13 @@
-import lessons from "../data/lessons.js";
-
 const regexMatcher = (regex, text) => {
   return text.match(text);
 };
 
+const BASE_ENDPOINT_URL = "http://localhost:4040";
+
 new Vue({
   el: "#vue-app-container",
   data: {
-    lessons,
+    lessons: [],
     courseCartModalVisibility: false,
     appView: "SELECT_ITEMS", // ITEMS_PAYMENT /OR/ CHECKOUT_ITEMS /OR/ CHECKOUT_COMPLETE
 
@@ -18,9 +18,17 @@ new Vue({
     sortField: "",
     sortOrder: "ascending",
     checkoutInfo: {},
-    course_cart: [{}],
+    course_cart: [],
   },
   methods: {
+    loadAllLessons: async function () {
+      const request = await fetch(`${BASE_ENDPOINT_URL}/lessons`);
+      const response = await request.json();
+
+      if (request.status === 200) {
+        this.lessons = response.data;
+      }
+    },
     validateNameKeyPress: function (event) {
       if (!/^[A-Za-z]+$/.test(event.key)) {
         return event.preventDefault();
@@ -32,12 +40,12 @@ new Vue({
       }
     },
     addCourseToCart: function (lessonId) {
-      const course = this.lessons.find((item) => item.id === lessonId);
+      const course = this.lessons.find((item) => item._id === lessonId);
 
       // confirm that the course isnt already in cart
 
       this.lessons = this.lessons.map((item) => {
-        if (item.id === lessonId) {
+        if (item._id === lessonId) {
           return { ...item, spaces: item.spaces - 1 };
         }
 
@@ -48,17 +56,17 @@ new Vue({
     },
     removeCourseFromCart(lessonId) {
       const courseInCart = this.course_cart.find(
-        (course) => course.id === lessonId
+        (course) => course._id === lessonId
       );
 
       // extra check to confirm course is in cart before filtering out
       if (courseInCart) {
         this.course_cart = this.course_cart.filter(
-          (item) => item?.id !== courseInCart?.id
+          (item) => item?._id !== courseInCart?._id
         );
 
         this.lessons = this.lessons.map((item) => {
-          if (item.id === lessonId) {
+          if (item._id === lessonId) {
             return { ...item, spaces: item.spaces + 1 };
           }
 
@@ -74,10 +82,51 @@ new Vue({
     setCourseCartModalVisibility: function (visibility) {
       this.courseCartModalVisibility = visibility;
     },
-    setappView: function (view) {
+    setappView: async function (view) {
       if (view === "CHECKOUT_COMPLETE") {
-        // reset cart
-        this.course_cart = [];
+        const orderData = {
+          name: this.customerName,
+          phoneNumber: this.customerPhoneNumber,
+          lessonIds: this.course_cart.map((items) => items._id),
+          spaceAmount: this.course_cart.length,
+        };
+
+        const request = await fetch(`${BASE_ENDPOINT_URL}/orders`, {
+          method: "POST",
+          body: JSON.stringify(orderData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        await request.json();
+
+        if (request.status === 200) {
+          for (const item in this.course_cart) {
+            const course = this.course_cart[item];
+
+            const updateLessonRequest = await fetch(
+              `${BASE_ENDPOINT_URL}/lessons/${course._id}`,
+              {
+                method: "PUT",
+                body: JSON.stringify({
+                  spaces: course.spaces
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            await updateLessonRequest.json()
+          }
+
+          await this.loadAllLessons();
+          this.course_cart = [];
+        }
+
+        this.appView = view;
+        return;
       }
 
       this.appView = view;
@@ -105,10 +154,10 @@ new Vue({
       });
     },
   },
-  mounted() {
-    console.log();
+  async mounted() {
+    await this.loadAllLessons();
 
-    // this.sortAscending("price");
+    console.log("ALL LESSONS =>", this.lessons)
   },
   computed: {
     hasEnoughInfoToCheckout() {
@@ -125,21 +174,22 @@ new Vue({
     },
   },
   watch: {
-    searchText: function (newVal) {
-      /*
-          This is my attempt to implement a fuzzy search type that finds 
-          search items using their characters.
+    searchText: async function (newVal) {
+      if (!newVal) {
+        return await this.loadAllLessons();
+      }
 
-          My approach is to interpolate all attributes together in a single
-          string & leverage the .includes method to see if the search string exists in the lesson object. 
-          ( This may not be a very good approach performance-wise... but it works 🫣 ) 
-      */
-
-      this.lessons = lessons.filter(({ subject, price, location }) =>
-        `${subject.toLowerCase()} ${price} $${price} ${location.toLowerCase()}`.includes(
-          newVal.toLowerCase()
-        )
+      const searchRequest = await fetch(
+        `${BASE_ENDPOINT_URL}/lessons/search/${newVal.toLowerCase()}`
       );
+
+      const response = await searchRequest.json();
+
+      if (searchRequest.status === 200) {
+        if (response.data.length >= 1) {
+          this.lessons = response.data;
+        }
+      }
     },
     sortField: function (newVal) {
       if (this.sortOrder === "ascending") {
