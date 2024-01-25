@@ -2,7 +2,8 @@ const regexMatcher = (regex, text) => {
   return text.match(text);
 };
 
-const BASE_ENDPOINT_URL = "http://localhost:4040";
+// const BASE_ENDPOINT_URL = "http://localhost:4040";
+const BASE_ENDPOINT_URL = "http://mdx-coursely-vue-express-app-env.eba-xy4wu8fz.eu-north-1.elasticbeanstalk.com";
 
 new Vue({
   el: "#vue-app-container",
@@ -156,8 +157,6 @@ new Vue({
   },
   async mounted() {
     await this.loadAllLessons();
-
-    console.log("ALL LESSONS =>", this.lessons)
   },
   computed: {
     hasEnoughInfoToCheckout() {
