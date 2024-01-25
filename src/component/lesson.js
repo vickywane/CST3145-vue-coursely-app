@@ -3,7 +3,7 @@ const regexMatcher = (regex, text) => {
 };
 
 // const BASE_ENDPOINT_URL = "http://localhost:4040";
-const BASE_ENDPOINT_URL = "http://mdx-coursely-vue-express-app-env.eba-xy4wu8fz.eu-north-1.elasticbeanstalk.com";
+const BASE_ENDPOINT_URL = "https://a56b-92-40-101-49.ngrok-free.app";
 
 new Vue({
   el: "#vue-app-container",
