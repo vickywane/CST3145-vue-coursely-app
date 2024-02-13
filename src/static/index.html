@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AWS Static Demo | Home</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body>
+    <div>
+      <header>
+        <nav class="flex justify-between h-[55px] items-center px-8">
+          <div>
+            <p class="text-xl md:text-2xl font-semibold">
+              <a href="/"> AWS Static Demo </a>
+            </p>
+          </div>
+        </nav>
+      </header>
+
+      <section
+        class="flex min-h-[400px] bg-[#FFF8F0] justify-center items-center"
+      >
+        <div
+          class="max-w-[1240px] mx-6 lg:m-auto flex flex-col-reverse lgflex-row py-12 lgpy-0"
+        >
+          <div class="w-full lgmax-w-[50%]">
+            <h1 class="text-4xl text-center font-semibold">
+              Victory Nwani's AWS Playbook. <br />
+              A Static Site With AWS!
+            </h1>
+
+            <p class="my-8 text-gray-600 text-center max-w-[600px] text-xl">
+              Here's my sample static application. I have added an image I took
+              few minutes ago of an amazing pancake breakfast meal which I had
+              from a Turkish coffee shop!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-[1240px] mx-6 lg:m-auto">
+        <div class="flex justify-center mt-[150px]">
+          <figure>
+            <img
+              class="h-[750px] w-[800px] object-cover rounded-xl"
+              alt="desert-pancake"
+              src="https://victory-mdx-cw2-static-site-2.s3.amazonaws.com/desert-pancake.jpeg"
+            />
+
+            <figcaption class="text-italic" >My pancake meal</figcaption>
+          </figure>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
