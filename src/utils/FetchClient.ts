@@ -1,4 +1,4 @@
-const BASE_ENDPOINT_URL = "http://localhost:4040";
+const BASE_ENDPOINT_URL = "https://a487-109-144-220-116.ngrok-free.app";
 
 interface FetchClientProps {
   endpoint: string;
