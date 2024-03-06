@@ -9,6 +9,7 @@ const state = ref({
 })
 
 onBeforeMount(() => {
+  console.log("MOUNTED!");
   window.addEventListener('beforeinstallprompt', (e) => {
     console.log("PWA SUPPORT DETECTED!");
     state.pwaSupportAvailable = true

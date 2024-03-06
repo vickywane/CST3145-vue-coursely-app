@@ -1,5 +1,6 @@
 import { register } from "register-service-worker";
 
+
 register(`https://vickywane.github.io/sw.js`, {
   ready() {
     console.log(

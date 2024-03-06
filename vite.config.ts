@@ -10,13 +10,15 @@ export default defineConfig({
   build: {
     outDir: path.join(__dirname, "docs")
   },
-  // publicDir: process.env.NODE_ENV === "production" ? "/REPO_NAME/" : "/",
   plugins: [
     vue(),
     vueJsx(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: "auto"
+      injectRegister: "auto",
+      devOptions: {
+        enabled: true
+      }
     })
   ],
   resolve: {
