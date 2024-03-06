@@ -5,5 +5,5 @@ if ('serviceWorker' in navigator) {
       }).catch(error => {
         console.error('Service worker registration failed:', error);
       });
-    });
+    }); 
   }

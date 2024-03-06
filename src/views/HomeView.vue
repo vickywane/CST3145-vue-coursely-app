@@ -1,4 +1,4 @@
-<script>
+<script >
 import { FetchClient } from "@/utils/FetchClient";
 import HeroSection from "../components/Hero.vue";
 import Lesson from "../components/Lesson.vue";
