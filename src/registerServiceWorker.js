@@ -1,6 +1,6 @@
 import { register } from "register-service-worker";
 
-register(`${process.env.BASE_URL}service-worker.js`, {
+register(`https://vickywane.github.io/sw.js`, {
   ready() {
     console.log(
       "App is being served from cache by a service worker.\n" +
