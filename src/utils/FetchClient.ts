@@ -1,4 +1,4 @@
-const BASE_ENDPOINT_URL = "https://2a4e-188-28-41-79.ngrok-free.app";
+const BASE_ENDPOINT_URL = "https://mdx-coursely-api.victory-crafts.org";
 
 interface FetchClientProps {
   endpoint: string;
