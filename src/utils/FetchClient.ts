@@ -17,6 +17,7 @@ export const FetchClient = async ({
       body: payload ? JSON.stringify(payload) : null,
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
       },
     });
 
